@@ -1,0 +1,18 @@
+<view class="index">
+  欢迎
+</view>
+ <button 
+      open-type="getUserInfo" 
+      bindgetuserinfo="onGetUserInfo"
+      class="userinfo-avatar"
+      style="background-image: url({{avatarUrl}})"
+      size="default"
+    >获取用户信息</button>
+
+     <button 
+      open-type="getPhoneNumber" 
+      bindgetuserinfo="onGetUserInfo"
+      class="userinfo-avatar"
+      style="background-image: url({{avatarUrl}})"
+      size="default"
+    >获取手机号码</button>
