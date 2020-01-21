@@ -1,7 +1,7 @@
 {
-  "pages": [
+  "pages": [   
     "pages/home/index",
-    "pages/index/index",
+    "pages/index/index",  
     "pages/storageConsole/storageConsole",
     "pages/im/im",
     "pages/userConsole/userConsole",
@@ -19,7 +19,7 @@
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "麦子网盘",
+    "navigationBarTitleText": "麦子生活",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",

@@ -16,31 +16,32 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if(!wx.cloud)
-    {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }
-    wx.getSetting({success:(res)=>{
-      if (res.authSetting['scope.userInfo']) {
-        // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-        wx.getUserInfo({
-          success: res => {
-            console.log(res.userInfo)
-            wx.showToast({
-              title: res.userInfo.nickName,
-              icon:'success'
-            })
-            this.setData({
-              avatarUrl: res.userInfo.avatarUrl,
-              userInfo: res.userInfo
-            })
+    wx.checkSession({
+      success: function () {
+        //session_key 未过期，并且在本生命周期一直有效
+        wx.getSetting({
+          success: (res) => {
+            if (res.authSetting['scope.userInfo']) {
+              // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+              wx.getUserInfo({
+                success: res => {
+                  this.setData({
+                    avatarUrl: res.userInfo.avatarUrl,
+                    userInfo: res.userInfo
+                  })
+                  //移除登录按钮
+                }
+              })
+            }
           }
         })
+      },
+      fail: function () {
+        // session_key 已经失效，需要重新执行登录流程
+       // wx.login() //重新登录
       }
-    }})
+    })
+ 
   },
   onGetUserInfo: function (e) {
     if (!this.data.logged && e.detail.userInfo) {
@@ -56,9 +57,27 @@ Page({
       })
     }else
     {
-      wx.showToast({
-        title: e.detail.userInfo.nickName,
-        icon: 'success'
+      let that=e;
+      wx.login({
+        success(res)
+        {
+          if(res.code)
+          {
+            wx.request({
+              url: 'http://local:6657/login',
+              data:{
+                js_code: res.code,
+                userInfo: e.detail.userInfo
+              },
+              success:(res)=>{
+                if(res.code===1)
+                {
+                  //成功
+                }
+              }
+            })
+          }
+        }
       })
     }
   },
